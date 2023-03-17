@@ -2,7 +2,7 @@ import React from "react";
 
 const Section = () => {
   return (
-    <section className="bg-black h-auto pb-8">
+    <section className="bg-black h-screen pb-8">
       <div className=" text-white p-12 text-center">
         <h2 className="text-6xl font-bold mb-4">
           Descubra o universo Star Wars!

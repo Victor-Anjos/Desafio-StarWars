@@ -16,66 +16,66 @@ const Header = () => {
         <ul className="flex items-center justify-center text-white uppercase font-bold responsivel">
           <li className="m-2">
             <a
+              href=""
               onClick={() => {
                 navigate("/planetas");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Planetas
             </a>
           </li>
           <li className="m-3">
             <a
+              href=""
               onClick={() => {
                 navigate("/especies");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Especies
             </a>
           </li>
           <li className="m-3">
             <a
+              href=""
               onClick={() => {
                 navigate("/veiculos");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Veiculos
             </a>
           </li>
           <li className="m-3">
             <a
+              href=""
               onClick={() => {
                 navigate("/naves");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Naves
             </a>
           </li>
           <li className="m-3">
             <a
+              href=""
               onClick={() => {
                 navigate("/filmes");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Filmes
             </a>
           </li>
           <li className="m-3">
             <a
+              href=""
               onClick={() => {
                 navigate("/personagens");
               }}
               className="hover:text-gray-300"
-              href=""
             >
               Personagens
             </a>
