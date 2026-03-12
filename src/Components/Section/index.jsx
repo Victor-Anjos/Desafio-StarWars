@@ -1,70 +1,108 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaGlobe, FaDna, FaCar, FaRocket, FaFilm, FaUserAstronaut } from "react-icons/fa";
+
+const categories = [
+  {
+    label: "Planetas",
+    route: "/planetas",
+    desc: "Explore os planetas da galáxia, de Tatooine a Coruscant.",
+    Icon: FaGlobe,
+  },
+  {
+    label: "Espécies",
+    route: "/especies",
+    desc: "Conheça as espécies que habitam a galáxia.",
+    Icon: FaDna,
+  },
+  {
+    label: "Veículos",
+    route: "/veiculos",
+    desc: "Descubra os veículos usados pelos personagens da saga.",
+    Icon: FaCar,
+  },
+  {
+    label: "Naves",
+    route: "/naves",
+    desc: "Explore as espaçonaves icônicas que cruzam a galáxia.",
+    Icon: FaRocket,
+  },
+  {
+    label: "Filmes",
+    route: "/filmes",
+    desc: "Todos os filmes da incrível franquia Star Wars.",
+    Icon: FaFilm,
+  },
+  {
+    label: "Personagens",
+    route: "/personagens",
+    desc: "Conheça os personagens icônicos da franquia.",
+    Icon: FaUserAstronaut,
+  },
+];
 
 const Section = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="bg-black h-screen pb-8">
-      <div className=" text-white p-12 text-center">
-        <h2 className="text-6xl font-bold mb-4">
-          Descubra o universo Star Wars!
-        </h2>
-        <p className="text-lg mb-2 text-xl text-white">
-          Em uma galáxia muito, muito distante, existem muitas aventuras e
-          batalhas épicas para serem descobertas.
+    <section className="stars-bg relative bg-[#09090b] overflow-hidden">
+      {/* Nebula glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,232,31,0.07) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Hero */}
+      <div className="relative z-10 text-center pt-20 pb-16 px-6">
+        <p className="font-orbitron text-[#FFE81F] text-xs tracking-[0.6em] uppercase mb-6 fade-in-up-d1">
+          Em uma galáxia muito, muito distante...
+        </p>
+        <h1 className="font-orbitron font-black text-white text-5xl md:text-7xl leading-tight mb-6 fade-in-up-d2">
+          Descubra o{" "}
+          <span style={{ color: "#FFE81F" }}>Universo</span>
+          <br />
+          Star Wars
+        </h1>
+        <p className="text-zinc-400 text-lg max-w-md mx-auto mb-14 fade-in-up-d3">
+          Personagens, planetas, naves, veículos, espécies e filmes de toda a
+          saga reunidos em um só lugar.
         </p>
       </div>
-      <div className="text-white mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 p-5">
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4 shadow-lg ">
-              <h2 className="text-lg font-bold mb-2 uppercase">Planetas</h2>
-              <p className="text-gray-400">
-                Explore os planetas da galáxia de Star Wars e descubra suas
-                peculiaridades.
-              </p>
-            </div>
-          </div>
 
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4">
-              <h2 className="text-lg font-bold mb-2 uppercase">Especies</h2>
-              <p className="text-gray-400">
-                Conheça as espécies que habitam a galáxia de Star Wars.
-              </p>
-            </div>
-          </div>
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4">
-              <h2 className="text-lg font-bold mb-2 uppercase">Veiculos</h2>
-              <p className="text-gray-400">
-                Descubra os veículos usados pelos personagens da saga Star Wars.
-              </p>
-            </div>
-          </div>
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4">
-              <h2 className="text-lg font-bold mb-2 uppercase">Naves</h2>
-              <p className="text-gray-400">
-                Explore as naves e espaçonaves usadas na saga Star Wars.
-              </p>
-            </div>
-          </div>
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4">
-              <h2 className="text-lg font-bold mb-2 uppercase">Filmes</h2>
-              <p className="text-gray-400">
-                Saiba sobre todos os filmes da incrivel franquia de Star Wars.
-              </p>
-            </div>
-          </div>
-          <div className=" overflow-hidden shadow-lg border-b-4 border-white bg-zinc-900 rounded">
-            <div className="p-4">
-              <h2 className="text-lg font-bold mb-2 uppercase">Personagens</h2>
-              <p className="text-gray-400">
-                Conheça agora todos os personagens icônicos da franquia Star
-                Wars.
-              </p>
-            </div>
-          </div>
+      {/* Category cards */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {categories.map(({ label, route, desc, Icon }) => (
+            <button
+              key={route}
+              onClick={() => navigate(route)}
+              className="card-sw group text-left bg-[#111113] border border-zinc-800 rounded-2xl p-7 transition-all duration-300 hover:bg-zinc-900 cursor-pointer"
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300"
+                style={{
+                  background: "rgba(255, 232, 31, 0.08)",
+                  border: "1px solid rgba(255, 232, 31, 0.15)",
+                }}
+              >
+                <Icon
+                  size={24}
+                  className="transition-colors duration-300 group-hover:text-[#FFE81F]"
+                  style={{ color: "#a1a1aa" }}
+                />
+              </div>
+              <h2 className="font-orbitron text-white font-bold text-base mb-2 group-hover:text-[#FFE81F] transition-colors duration-200">
+                {label}
+              </h2>
+              <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
+              <div className="mt-5 flex items-center gap-2 text-[#FFE81F] font-orbitron text-xs tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Explorar <span className="text-base">→</span>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
     </section>

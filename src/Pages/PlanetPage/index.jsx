@@ -1,67 +1,41 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import List from "../../Components/List";
-import TitlePage from "../../Components/TitlePage";
-import Button from "../../Components/Button";
-import Footer from "../../Components/Footer";
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
 import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+import TitlePage from "../../Components/TitlePage";
+import List from "../../Components/List";
 
 const PlanetPage = () => {
   const [planets, setPlanets] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://swapi.dev/api/planets/")
-      .then((response) => response.json())
-      .then((data) => {
-        const pageCount = Math.ceil(data.count / data.results.length);
-        const promises = [];
-        for (let i = 1; i <= pageCount; i++) {
-          promises.push(fetch(`https://swapi.dev/api/planets/?page=${i}`));
-        }
-        Promise.all(promises)
-          .then((responses) =>
-            Promise.all(responses.map((response) => response.json()))
-          )
-          .then((data) => {
-            const allPlanets = data.flatMap((page) =>
-              page.results.map((planet) => ({
-                name: planet.name,
-                diameter: planet.diameter,
-                rotation_period: planet.rotation_period,
-                orbital_period: planet.orbital_period,
-                gravity: planet.gravity,
-                population: planet.population,
-                climate: planet.climate,
-                terrain: planet.terrain,
-                surface_water: planet.surface_water,
-                residents: planet.residents,
-                films: planet.films,
-                created: planet.created,
-                edited: planet.edited,
-                url: planet.url,
-                image: `https://starwars-visualguide.com/assets/img/planets/${
-                  planet.url.match(/(\d+)\/$/)[1]
-                }.jpg`,
-              }))
-            );
-            setPlanets(allPlanets);
-          });
-      });
+    fetch("https://swapi.info/api/planets/")
+      .then((r) => r.json())
+      .then((data) => setPlanets(data.map((p) => ({ name: p.name }))))
+      .catch(console.error);
   }, []);
 
+  const filtered = planets.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="min-h-screen bg-[#09090b]">
       <Header />
-      <main className="bg-black min-h-screen h-auto">
-        <Button />
-        <div className="container mx-auto p-8 uppercase">
-          <TitlePage text={"Planetas"} />
-          <List
-            list={planets}
-            link={"planetas"}
-            className="relative shadow-lg hover:shadow-xl p-9 border-solid"
+      <main className="max-w-7xl mx-auto px-6 pb-16 pt-8">
+        <TitlePage text="Planetas" />
+        <div className="relative max-w-md mx-auto mb-2">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={13} />
+          <input
+            type="text"
+            placeholder="Buscar planeta..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#111113] border border-zinc-800 rounded-full py-3 pl-10 pr-4 text-white font-orbitron text-xs tracking-wider placeholder:text-zinc-600 focus:outline-none focus:border-[#FFE81F]/50 transition-colors duration-200"
           />
         </div>
+        <List list={filtered} link="planetas" />
       </main>
       <Footer />
     </div>

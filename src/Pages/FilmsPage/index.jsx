@@ -1,43 +1,41 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import List from "../../Components/List";
-import TitlePage from "../../Components/TitlePage";
-import Button from "../../Components/Button";
-import Footer from "../../Components/Footer";
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
 import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+import TitlePage from "../../Components/TitlePage";
+import List from "../../Components/List";
 
 const FilmsPage = () => {
   const [films, setFilms] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://swapi.dev/api/films/")
-      .then((response) => response.json())
-      .then((data) => {
-        const allFilms = data.results.map((film) => ({
-          title: film.title,
-          episode_id: film.episode_id,
-          director: film.director,
-          producer: film.producer,
-          release_date: film.release_date,
-          image: `https://starwars-visualguide.com/assets/img/films/${film.episode_id}.jpg`,
-        }));
-        setFilms(allFilms);
-      });
+    fetch("https://swapi.info/api/films/")
+      .then((r) => r.json())
+      .then((data) => setFilms(data.map((f) => ({ name: f.title }))))
+      .catch(console.error);
   }, []);
 
+  const filtered = films.filter((f) =>
+    f.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="min-h-screen bg-[#09090b]">
       <Header />
-      <main className="bg-black min-h-screen h-auto">
-        <Button />
-        <div className="container mx-auto p-8 uppercase">
-          <TitlePage text={"Filmes"} />
-          <List
-            list={films}
-            link={"filmes"}
-            className="relative shadow-lg hover:shadow-xl p-9 border-solid"
+      <main className="max-w-7xl mx-auto px-6 pb-16 pt-8">
+        <TitlePage text="Filmes" />
+        <div className="relative max-w-md mx-auto mb-2">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={13} />
+          <input
+            type="text"
+            placeholder="Buscar filme..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#111113] border border-zinc-800 rounded-full py-3 pl-10 pr-4 text-white font-orbitron text-xs tracking-wider placeholder:text-zinc-600 focus:outline-none focus:border-[#FFE81F]/50 transition-colors duration-200"
           />
         </div>
+        <List list={filtered} link="filmes" />
       </main>
       <Footer />
     </div>

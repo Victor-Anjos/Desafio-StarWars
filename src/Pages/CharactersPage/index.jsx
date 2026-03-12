@@ -1,64 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import TitlePage from "../../Components/TitlePage";
-import Button from "../../Components/Button";
+import { FaSearch } from "react-icons/fa";
 import Header from "../../Components/Header";
-import List from "../../Components/List";
 import Footer from "../../Components/Footer";
+import TitlePage from "../../Components/TitlePage";
+import List from "../../Components/List";
 
 const CharactersPage = () => {
   const [characters, setCharacters] = useState([]);
-  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://swapi.dev/api/people/")
-      .then((response) => response.json())
-      .then((data) => {
-        const pageCount = Math.ceil(data.count / data.results.length);
-        const promises = [];
-        for (let i = 1; i <= pageCount; i++) {
-          promises.push(fetch(`https://swapi.dev/api/people/?page=${i}`));
-        }
-        Promise.all(promises)
-          .then((responses) =>
-            Promise.all(responses.map((response) => response.json()))
-          )
-          .then((data) => {
-            const allCharacters = data
-              .flatMap((page) => page.results)
-              .map((character) => ({
-                name: character.name,
-                species: character.species[1],
-                image: `https://starwars-visualguide.com/assets/img/characters/${
-                  character.url.match(/(\d+)\/$/)[1]
-                }.jpg`,
-              }));
-            setCharacters(allCharacters);
-          })
-          .catch((error) => {
-            console.error("Erro ao buscar personagens: ", error);
-            navigate("/error");
-          });
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar personagens: ", error);
-        navigate("/error");
-      });
+    fetch("https://swapi.info/api/people/")
+      .then((r) => r.json())
+      .then((data) => setCharacters(data.map((c) => ({ name: c.name }))))
+      .catch(console.error);
   }, []);
 
+  const filtered = characters.filter((c) =>
+    c.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="min-h-screen bg-[#09090b]">
       <Header />
-      <main className="bg-black min-h-screen h-auto">
-        <Button />
-        <div className="container mx-auto p-8 uppercase">
-          <TitlePage text={"Personagens"} />
-          <List
-            list={characters}
-            link={"personagens"}
-            className="relative shadow-lg hover:shadow-xl p-9 border-solid"
+      <main className="max-w-7xl mx-auto px-6 pb-16 pt-8">
+        <TitlePage text="Personagens" />
+        <div className="relative max-w-md mx-auto mb-2">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={13} />
+          <input
+            type="text"
+            placeholder="Buscar personagem..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#111113] border border-zinc-800 rounded-full py-3 pl-10 pr-4 text-white font-orbitron text-xs tracking-wider placeholder:text-zinc-600 focus:outline-none focus:border-[#FFE81F]/50 transition-colors duration-200"
           />
         </div>
+        <List list={filtered} link="personagens" />
       </main>
       <Footer />
     </div>

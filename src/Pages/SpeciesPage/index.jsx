@@ -1,63 +1,41 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import List from "../../Components/List";
-import TitlePage from "../../Components/TitlePage";
-import Button from "../../Components/Button";
-import Footer from "../../Components/Footer";
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
 import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+import TitlePage from "../../Components/TitlePage";
+import List from "../../Components/List";
 
 const SpeciesPage = () => {
   const [species, setSpecies] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("https://swapi.dev/api/species/")
-      .then((response) => response.json())
-      .then((data) => {
-        const pageCount = Math.ceil(data.count / data.results.length);
-        const promises = [];
-        for (let i = 1; i <= pageCount; i++) {
-          promises.push(fetch(`https://swapi.dev/api/species/?page=${i}`));
-        }
-        Promise.all(promises)
-          .then((responses) =>
-            Promise.all(responses.map((response) => response.json()))
-          )
-          .then((data) => {
-            const allSpecies = data.flatMap((page) =>
-              page.results.map((specie) => ({
-                name: specie.name,
-                classification: specie.classification,
-                designation: specie.designation,
-                average_height: specie.average_height,
-                skin_colors: specie.skin_colors,
-                hair_colors: specie.hair_colors,
-                eye_colors: specie.eye_colors,
-                average_lifespan: specie.average_lifespan,
-                homeworld: specie.homeworld,
-                language: specie.language,
-                image: `https://starwars-visualguide.com/assets/img/species/${
-                  specie.url.match(/(\d+)\/$/)[1]
-                }.jpg`,
-              }))
-            );
-            setSpecies(allSpecies);
-          });
-      });
+    fetch("https://swapi.info/api/species/")
+      .then((r) => r.json())
+      .then((data) => setSpecies(data.map((s) => ({ name: s.name }))))
+      .catch(console.error);
   }, []);
 
+  const filtered = species.filter((s) =>
+    s.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="min-h-screen bg-[#09090b]">
       <Header />
-      <main className="bg-black min-h-screen h-auto">
-        <Button />
-        <div className="container mx-auto p-8 uppercase">
-          <TitlePage text={"Especies"} />
-          <List
-            list={species}
-            link={"especies"}
-            className="relative shadow-lg hover:shadow-xl p-9 border-solid"
+      <main className="max-w-7xl mx-auto px-6 pb-16 pt-8">
+        <TitlePage text="Espécies" />
+        <div className="relative max-w-md mx-auto mb-2">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={13} />
+          <input
+            type="text"
+            placeholder="Buscar espécie..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#111113] border border-zinc-800 rounded-full py-3 pl-10 pr-4 text-white font-orbitron text-xs tracking-wider placeholder:text-zinc-600 focus:outline-none focus:border-[#FFE81F]/50 transition-colors duration-200"
           />
         </div>
+        <List list={filtered} link="especies" />
       </main>
       <Footer />
     </div>

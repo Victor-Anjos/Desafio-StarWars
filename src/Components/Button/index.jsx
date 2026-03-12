@@ -5,12 +5,12 @@ const Button = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="px-6 pt-6 pb-2">
       <button
-        className="ease-in duration-300 text-white border-2 rounded-full px-7 py-3 font-bold  hover:bg-white hover:text-black ml-12 mt-12"
-        onClick={() => navigate("/")}
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 font-orbitron text-[11px] tracking-widest uppercase text-zinc-400 hover:text-[#FFE81F] border border-zinc-700 hover:border-[#FFE81F]/60 rounded-full px-6 py-2.5 transition-all duration-200"
       >
-        {"<- Voltar"}
+        ← Voltar
       </button>
     </div>
   );
