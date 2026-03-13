@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaGlobe, FaDna, FaCar, FaRocket, FaFilm, FaUserAstronaut } from "react-icons/fa";
+import { FaGlobe, FaDna, FaRocket, FaFilm, FaUserAstronaut } from "react-icons/fa";
+import { GiTank } from "react-icons/gi";
 
 const categories = [
   {
@@ -19,7 +20,7 @@ const categories = [
     label: "Veículos",
     route: "/veiculos",
     desc: "Descubra os veículos usados pelos personagens da saga.",
-    Icon: FaCar,
+    Icon: GiTank,
   },
   {
     label: "Naves",

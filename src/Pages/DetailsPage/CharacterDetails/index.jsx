@@ -131,8 +131,8 @@ const CharacterDetails = () => {
       <NavButtons prevId={prevId} nextId={nextId} base="/detalhes-personagens" label="Personagens" />
       {notFound ? <NotFound id={id} /> : !character ? <Skeleton /> : (
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden px-6 pb-6">
-          <div className="rounded-2xl overflow-hidden h-72 lg:h-full">
-            <WookieImage name={character.name} type="character" className="w-full h-full object-cover" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <div className="rounded-2xl overflow-hidden h-72 lg:h-full bg-[#111113]">
+            <WookieImage name={character.name} type="character" className="w-full h-full object-contain" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
           </div>
           <div className="bg-[#111113] border border-zinc-800 rounded-2xl p-8 overflow-y-auto pb-12 lg:pb-8">
             <h1 className="font-orbitron text-3xl md:text-4xl font-black" style={{ color: "#FFE81F" }}>{character.name}</h1>
